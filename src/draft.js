@@ -1,7 +1,7 @@
 import './css/styles.css';
 import Notiflix from 'notiflix';
-import  SearchImages from './fetchImages'
-const searchImages = new SearchImages();
+import  API from './fetchImages'
+
 const refs = {
     searchInput: document.getElementsByName('searchQuery'),
     form: document.querySelector(".search-form"),
@@ -14,39 +14,24 @@ refs.form.addEventListener('submit', onSearch);
 refs.loadMoreBtn.addEventListener('click', onLoadMore);
 
 async function onSearch(e) {
-  e.preventDefault();
-  const form = e.currentTarget;
-    searchImages.searchQuery = form.elements.searchQuery.value.trim();
-    searchImages.resetPage();
-    clearGalleryList();  
-    loadMoreBtnShow();
-
- try {
-        const images = await searchImages.fetchImages();        
+    e.preventDefault();
+    const form = e.currentTarget;
+    const inputValue = form.elements.searchQuery.value;      
+    try {
+        const images = await API.fetchImages(inputValue);        
         const markup = images.reduce(
             (markup, images) => createGallery(images) + markup,
               "");        
-        
+        // createGallery(images);
         updateGalleryList(markup);
         }catch(error) {
         onFetchError(error);
         console.log("error");
-        }finally{form.reset()};
-};
+        }finally{form.reset()}         
+}
 
-async function onLoadMore() {
- try {
-        const images = await searchImages.fetchImages();        
-        const markup = images.reduce(
-            (markup, images) => createGallery(images) + markup,
-              "");          
-        updateGalleryList(markup);
-        }catch(error) {
-        onFetchError(error);
-        console.log("error");
-        }     
-};
-
+function onLoadMore() {
+}
 function createGallery({ webformatURL, tags, likes, views, comments, downloads}) {     
     return `        
             <li class="list-item">                
@@ -68,20 +53,14 @@ function createGallery({ webformatURL, tags, likes, views, comments, downloads})
                     </div>
                 </div>    
             </li>        
-    `;  
+    `;      
+    console.log(markup)
+    refs.galleryList.innerHTML = markup;        
 };
-function clearGalleryList() {     
-    refs.galleryList.innerHTML= "";    
-};
-
 function updateGalleryList(markup) {     
-    refs.galleryList.insertAdjacentHTML("beforeend", markup);    
-};
-function loadMoreBtnShow() {
-    refs.loadMoreBtn.style.display= "flex";
+    refs.galleryList.innerHTML = markup;    
 };
 
 function onFetchError(error) {
     Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again');
 };
-
