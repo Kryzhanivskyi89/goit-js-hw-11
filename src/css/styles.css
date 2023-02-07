@@ -33,7 +33,7 @@ body {
     height: 48px;
     padding-left: 12px;
     background: #ffffff;
-    border: 1px solid rgba(18, 18, 18, 0.12);
+    border: 1px solid rgba(221, 13, 65, 0.12);
     box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.15);
     border-radius: 30px;
     font-size: 16px;
@@ -44,7 +44,8 @@ body {
   justify-content: center;
     margin-left: 50px;        
     position: relative;
-    border: 1px solid transparent;    
+    border: 1px solid transparent; 
+    background-color: fff;
     border: 1px solid rgba(18, 18, 18, 0.12);
     box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.15);
     cursor: pointer;
@@ -54,6 +55,11 @@ body {
     font-size: 21px;
     font-family: -apple-system;
 }
+.submit:hover,
+.submit:focus {
+background-color: aquamarine;
+}
+
 .list {  
   list-style: none;
   display: flex;
@@ -92,9 +98,10 @@ body {
   justify-content: center;
   margin-left: auto;
   margin-right: auto;  
-  background: rgb(86, 196, 119);
+  background: rgb(126, 228, 156);
     position: relative;
     border: 1px solid transparent;
+    box-shadow: inset 0px 2px 4px #40e61696;
     border-color: black;
     cursor: pointer;
     padding: 10px 40px;
@@ -102,4 +109,10 @@ body {
     overflow: hidden;
     font-size: 21px;
     font-family: -apple-system;
+}
+
+.load-more:hover,
+.load-more:focus {
+  background: rgb(92, 224, 80);
+  border-color: rgb(34, 161, 17);
 }

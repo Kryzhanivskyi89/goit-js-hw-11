@@ -18,8 +18,7 @@ async function onSearch(e) {
     const form = e.currentTarget;
     searchImages.searchQuery = form.elements.searchQuery.value.trim();
     searchImages.resetPage();
-    clearGalleryList(); 
-    console.log(searchImages.fetchImages()) 
+    clearGalleryList();
     try {
         const images = await searchImages.fetchImages(); 
         const markup = images.hits.reduce(
@@ -31,7 +30,11 @@ async function onSearch(e) {
         onFetchError();
         clearGalleryList();
         loadMoreBtnHide();
-        };      
+        };     
+    if (images.totalHits <= 40) {
+            endOfSearchResults();        
+            loadMoreBtnHide(); 
+        };
     }catch(error) {
         onFetchError(error);       
         console.log("error");
@@ -45,11 +48,10 @@ async function onLoadMore() {
             (markup, images) => createGallery(images) + markup,
             "");          
         updateGalleryList(markup);
-        // if (searchImages.queryPage = Math.ceil(images.totalHits/40+1)) {
-        //     endOfSearchResults();        
-        //     loadMoreBtnHide(); 
-        //     console.log(searchImages.queryPage)
-        // };
+        if (searchImages.queryPage >= Math.ceil(images.totalHits/40)) {
+            endOfSearchResults();        
+            loadMoreBtnHide(); 
+        };
     }catch(error) {
         onFetchError(error);
         console.log("error");
