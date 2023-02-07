@@ -3,7 +3,7 @@ import axios from "axios";
 export default class SearchImages {
   constructor() {
     this.queryPage = 1;
-    this.searchQuery = '';
+    this.searchQuery = '';    
   }
   async fetchImages() {
     const BASE_URL = "https://pixabay.com/api";
@@ -11,7 +11,7 @@ export default class SearchImages {
     const url = `${BASE_URL}/?key=${API_KEY}&q=${this.searchQuery}&image_type=photo&safesearch=true&orientation=horizontal&per_page=40&page=${this.queryPage}`
     const response = await axios.get(url);
     this.incrementPage();
-    return response.data.hits;
+    return response.data;
   }
   resetPage() {
     this.queryPage = 1;
